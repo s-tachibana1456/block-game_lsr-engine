@@ -6,13 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="src\States\" />
     <Folder Include="src\Rules\" />
     <Folder Include="src\PipeLines\" />
     <Folder Include="src\Cache\" />
     <Folder Include="src\Block\" />
-    <Folder Include="src\Logics\" />
-    <Folder Include="src\Event\" />
+    <Folder Include="src\Config\" />
   </ItemGroup>
 
 </Project>
