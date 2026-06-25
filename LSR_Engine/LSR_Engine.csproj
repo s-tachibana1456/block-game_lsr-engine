@@ -8,7 +8,6 @@
   <ItemGroup>
     <Folder Include="src\Rules\" />
     <Folder Include="src\PipeLines\" />
-    <Folder Include="src\Cache\" />
     <Folder Include="src\Block\" />
     <Folder Include="src\Config\" />
   </ItemGroup>
