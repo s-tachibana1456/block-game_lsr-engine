@@ -1,21 +1,17 @@
-﻿using System;
+﻿using LSR_Engine.src.States.Enum;
+using LSR_Engine.src.States.Interface;
+using System;
 using System.Collections.Generic;
 
 namespace LSR_Engine.src.States
 {
-    internal enum BlockType : byte
-    {
-        None = 0,
-        Fill = 1,
-    }
-
     internal enum Direction
     {
         Vertical,
         Horizontal
     }
 
-    internal class BoardState
+    internal class BoardState : IBoardState
     {
         private readonly BlockType[] _board;
         private readonly int mapSize;

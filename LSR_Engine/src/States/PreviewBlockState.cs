@@ -1,35 +1,42 @@
 ﻿using LSR_Engine.src.Common;
+using LSR_Engine.src.States.Interface;
 using System;
-using System.Collections.Generic;
 
 namespace LSR_Engine.src.States
 {
     [Flags]
-    internal enum PreviewBlockFlags
+    public enum PreviewBlockFlags : byte
     {
         None = 0,
-        Position = 1 << 0,
-        Shape = 1 << 1,
-        Rotation = 1 << 2,
+        Shape = 1 << 0,
+        Position = 1 << 1,
+        Rotation = 1 << 2
     }
 
-    internal class PreviewBlockState
+    /// <summary>
+    /// ゲームのプレビューブロックの状態を表す。
+    /// フラグ管理はクライアントの描画専用だが、ややこしくなるためまとめてある。
+    /// </summary>
+    internal class PreviewBlockState : IPreviewBlockState
     {
-        public IReadOnlyList<IReadOnlyList<int>> CurrentBlock { get; private set; }
-        public int Angle { get; private set; }
+        public Block CurrentBlock { get; private set; }
         public Position Position { get; private set; }
-        
+
         private PreviewBlockFlags Flags;
 
-        public PreviewBlockState(IReadOnlyList<IReadOnlyList<int>> block, int angle, Position position)
+        public PreviewBlockState(Block block, Position position)
         {
             CurrentBlock = block;
-            Angle = angle;
             Position = position;
 
-            Flags |= PreviewBlockFlags.None;
+            Flags = PreviewBlockFlags.None;
         }
 
+        /// <summary>
+        /// ゲームのプレビューブロックの状態を表す。
+        /// クライアント描画用の更新フラグも保持する。
+        /// サーバーではこのフラグは使用しないが、型を分ける複雑さを避けるため同居させている。
+        /// </summary>
         public PreviewBlockFlags ConsumeUpdates()
         {
             var flags = Flags;
@@ -43,7 +50,7 @@ namespace LSR_Engine.src.States
         /// <param name="position">新しいブロックの座標</param>
         public void Move(Position position)
         {
-            Apply(CurrentBlock, Angle, position);
+            Apply(CurrentBlock, position);
         }
 
         /// <summary>
@@ -52,9 +59,9 @@ namespace LSR_Engine.src.States
         /// <param name="newBlock">回転後のブロックのデータ</param>
         /// <param name="angle">回転値</param>
         /// <param name="newPosition">回転後の新しい座標</param>
-        public void Rotate(IReadOnlyList<IReadOnlyList<int>> newBlock, int angle, Position newPosition)
+        public void Rotate(Block newBlock, Position newPosition)
         {
-            Apply(newBlock, angle, newPosition);
+            Apply(newBlock, newPosition);
         }
 
         /// <summary>
@@ -63,23 +70,21 @@ namespace LSR_Engine.src.States
         /// <param name="newBlock">新しいブロック</param>
         /// <param name="angle">回転値</param>
         /// <param name="newPosition">新しい座標</param>
-        public void SetUp(IReadOnlyList<IReadOnlyList<int>> newBlock, int angle, Position newPosition)
+        public void SetUp(Block newBlock, Position newPosition)
         {
-            Apply(newBlock, angle, newPosition);
+            Apply(newBlock, newPosition);
         }
 
         /// <summary>
         /// クラス内部のプロパティを一括で変更する。前の値と異なれば自動的に変更フラグが立つ
         /// </summary>
-        private void Apply(IReadOnlyList<IReadOnlyList<int>> block, int angle, Position position)
+        private void Apply(Block block, Position position)
         {
             if (CurrentBlock != block) Flags |= PreviewBlockFlags.Shape;
-            if (Position.Equals(position)) Flags |= PreviewBlockFlags.Position;
-            if (Angle != angle) Flags |= PreviewBlockFlags.Rotation;
+            if (!Position.Equals(position)) Flags |= PreviewBlockFlags.Position;
 
             CurrentBlock = block;
             Position = position;
-            Angle = angle;
         }
     }
 }

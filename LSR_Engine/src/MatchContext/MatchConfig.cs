@@ -2,11 +2,11 @@
 
 namespace LSR_Engine.src.MatchContext
 {
-    internal class MatchConfig
+    internal readonly struct MatchConfig
     {
-        public GameMode GameMode { get; }
+        readonly public GameMode GameMode { get; }
 
-        public int MapSize { get; }
+        readonly public int MapSize { get; }
 
         public MatchConfig(GameMode gameMode, int mapSize)
         {

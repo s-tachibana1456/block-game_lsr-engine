@@ -1,6 +1,6 @@
 ﻿namespace LSR_Engine.src.Common
 {
-    internal readonly struct Position
+    public readonly struct Position
     {
         public readonly int X;
         public readonly int Y;

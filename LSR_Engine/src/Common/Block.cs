@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LSR_Engine.src.Common
+﻿namespace LSR_Engine.src.Common
 {
-    internal class Block
+    public class Block
     {
         public readonly string Shape;
-        public readonly IReadOnlyList<IReadOnlyList<int>> Data;
+        public readonly byte[,] Data;
         public readonly int Angle;
 
-        public Block(string shape, IReadOnlyList<IReadOnlyList<int>> data, int angle)
+        public Block(string shape, byte[,] data, int angle)
         {
             Shape = shape;
             Data = data;

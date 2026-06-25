@@ -8,7 +8,7 @@ namespace LSR_Engine.src.MatchContext
 
         public int Tick { get; private set; }
 
-        public void UpdateTick() => Tick++;
+        public void IncrementTick() => Tick++;
 
         public void SetGameState(GameState state) => GameState = state;
     }
