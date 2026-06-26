@@ -1,6 +1,6 @@
 ﻿namespace LSR_Engine.src.Player
 {
-    internal struct PlayerInfomation
+    internal class PlayerInfomation
     {
         public bool IsEnemy { get; }
         public int Score { get; set; }
