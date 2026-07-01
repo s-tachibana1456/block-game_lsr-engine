@@ -77,10 +77,8 @@ namespace LSR_Engine.src.States
 
         private void DeleteHorizontalLine(int line)
         {
-            for (int x = 0; x < mapSize; x++)
-            {
-                ClearCell(GetIndex(x, line));
-            }
+            Span<BlockType> rowSpan = _board.AsSpan(line * mapSize, mapSize);
+            rowSpan.Clear();
         }
 
         private int GetIndex(int x, int y) => y * mapSize + x;
