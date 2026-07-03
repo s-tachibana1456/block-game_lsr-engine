@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LSR_Engine.src.Common;
+using System;
 using System.Collections.Generic;
 
 namespace LSR_Engine.src.States
@@ -13,15 +14,15 @@ namespace LSR_Engine.src.States
     internal class NextBlockState
     {
         private NextBlockFlags Flags;
-        public IReadOnlyList<IReadOnlyList<int>> NextBlock { get; private set; }
+        public Block NextBlock { get; private set; }
 
-        public NextBlockState(IReadOnlyList<IReadOnlyList<int>> nextBlock)
+        public NextBlockState(Block nextBlock)
         {
             NextBlock = nextBlock;
             Flags = NextBlockFlags.NextCahnge;
         }
 
-        public void SetNextBlock(IReadOnlyList<IReadOnlyList<int>> nextBlock)
+        public void SetNextBlock(Block nextBlock)
         {
             NextBlock = nextBlock;
             Flags |= NextBlockFlags.NextCahnge;

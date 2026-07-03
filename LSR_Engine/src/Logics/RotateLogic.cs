@@ -15,16 +15,10 @@ namespace LSR_Engine.src.Logics
         }
     }
 
-    internal enum RotationDirection
-    {
-        Clockwise,
-        CounterClockwise
-    }
-
     internal static class RotateLogic
     {
         public static Rotated Rotate(
-            RotationDirection direction,
+            Actions action,
             byte[][,] cache,
             Block currentBlock,
             Position currentPosition,
@@ -34,9 +28,16 @@ namespace LSR_Engine.src.Logics
             int x = currentPosition.X;
             int y = currentPosition.Y;
 
-            var rotatedBlock = direction == RotationDirection.Clockwise
-                ? FindCacheCW(cache, currentBlock)
-                : FindCacheCCW(cache, currentBlock);
+            var rotatedBlock = currentBlock;
+
+            if (action == Actions.Rotate)
+            {
+                rotatedBlock = FindCacheCW(cache, currentBlock);
+            }
+            else if (action == Actions.RotateReverse)
+            {
+                rotatedBlock = FindCacheCCW(cache, currentBlock);
+            }
 
             int height = rotatedBlock.Data.GetLength(0);
             int width = rotatedBlock.Data.GetLength(1);
