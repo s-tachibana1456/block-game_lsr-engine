@@ -10,7 +10,7 @@ namespace LSR_Engine.src.States.Interface
         /// <param name="block">盤面に書き込みを行ないたいブロックのデータ</param>
         /// <param name="posX">ブロックを設置したX座標</param>
         /// <param name="posY">ブロックを設置したY座標</param>
-        void SetBlock(IReadOnlyList<IReadOnlyList<int>> block, int posX, int posY);
+        void SetBlock(byte[][] block, int posX, int posY);
 
         /// <summary>
         /// 任意の列・行を削除する。

@@ -6,13 +6,12 @@ namespace LSR_Engine.src.Logics
     {
         public static bool CanMoveTo(Block block, int posX, int posY, int mapSize)
         {
-            const int blockSize = 8;
-            byte[,] data = block.Data;
-            for (int y = 0; y < blockSize; y++)
+            byte[][] data = block.Data;
+            for (int y = 0; y < data.Length; y++)
             {
-                for (int x = 0; x< blockSize; x++)
+                for (int x = 0; x < data[y].Length; x++)
                 {
-                    if (data[y, x] == 0) continue;
+                    if (data[y][x] == 0) continue;
 
                     int fx = posX + x;
                     int fy = posY + y;

@@ -28,11 +28,11 @@ namespace LSR_Engine.src.States
             return _board;
         }
 
-        public void SetBlock(IReadOnlyList<IReadOnlyList<int>> block, int posX, int posY)
+        public void SetBlock(byte[][] block, int posX, int posY)
         {
-            for (int y = 0; y < block.Count; y++)
+            for (int y = 0; y < block.Length; y++)
             {
-                for (int x = 0; x < block[y].Count; x++)
+                for (int x = 0; x < block[y].Length; x++)
                 {
                     if (block[y][x] != 1)
                         continue;

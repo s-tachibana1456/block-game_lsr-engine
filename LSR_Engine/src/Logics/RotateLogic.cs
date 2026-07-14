@@ -5,13 +5,13 @@ namespace LSR_Engine.src.Logics
 {
     internal readonly struct Rotated
     {
-        readonly public Block afterBlock;
-        readonly public Position position;
+        public Block AfterBlock { get; }
+        public Position Position { get; }
 
         public Rotated(Block afterBlock, Position position)
         {
-            this.afterBlock = afterBlock;
-            this.position = position;
+            AfterBlock = afterBlock;
+            Position = position;
         }
     }
 
@@ -19,7 +19,7 @@ namespace LSR_Engine.src.Logics
     {
         public static Rotated Rotate(
             Actions action,
-            byte[][,] cache,
+            byte[][][] cache,
             Block currentBlock,
             Position currentPosition,
             int mapSize
@@ -39,8 +39,8 @@ namespace LSR_Engine.src.Logics
                 rotatedBlock = FindCacheCCW(cache, currentBlock);
             }
 
-            int height = rotatedBlock.Data.GetLength(0);
-            int width = rotatedBlock.Data.GetLength(1);
+            int height = rotatedBlock.Data.Length;
+            int width = rotatedBlock.Data[0].Length;
 
             x = Math.Clamp(x, 0, mapSize - width);
             y = Math.Clamp(y, 0, mapSize - height);
@@ -48,7 +48,7 @@ namespace LSR_Engine.src.Logics
             return new Rotated(rotatedBlock, new Position(x, y));
         }
 
-        private static Block FindCacheCW(byte[][,] cache, Block block)
+        private static Block FindCacheCW(byte[][][] cache, Block block)
         {
             var currentIndex = block.Angle / 90;
 
@@ -61,7 +61,7 @@ namespace LSR_Engine.src.Logics
             );
         }
 
-        private static Block FindCacheCCW(byte[][,] cache, Block block)
+        private static Block FindCacheCCW(byte[][][] cache, Block block)
         {
             var currentIndex = block.Angle / 90;
             var nextIndex = (currentIndex + 1) % 4;

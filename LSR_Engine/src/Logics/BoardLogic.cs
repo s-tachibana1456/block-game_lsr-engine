@@ -1,19 +1,23 @@
 ﻿using LSR_Engine.src.States.Enum;
 using System;
-using System.Linq;
 
 namespace LSR_Engine.src.Logics
 {
     internal readonly struct DeletableLine
     {
-        public readonly int Vertical { get; }
-        public readonly int Horizontal { get; }
+        public int Vertical { get; }
+        public int Horizontal { get; }
 
         public DeletableLine(int vertical, int horizontal)
         {
             Vertical = vertical;
             Horizontal = horizontal;
         }
+
+        public bool IsVerticalCleared(int line) => (Vertical & (1 << line)) != 0;
+        public bool IsHorizontalCleared(int line) => (Horizontal & (1 << line)) != 0;
+
+        public bool AnyCleared => Vertical != 0 || Horizontal != 0;
     }
 
     internal static class BoardLogic
