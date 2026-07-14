@@ -18,6 +18,19 @@ namespace LSR_Engine.src.Logics
         public bool IsHorizontalCleared(int line) => (Horizontal & (1 << line)) != 0;
 
         public bool AnyCleared => Vertical != 0 || Horizontal != 0;
+
+        public int CleardCount => CountBits(Vertical) + CountBits(Horizontal);
+
+        private static int CountBits(int mask)
+        {
+            int count = 0;
+            while (mask != 0)
+            {
+                count += mask & 1;
+                mask >>= 1;
+            }
+            return count;
+        }
     }
 
     internal static class BoardLogic
