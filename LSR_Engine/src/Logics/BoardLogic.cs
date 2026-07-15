@@ -81,7 +81,7 @@ namespace LSR_Engine.src.Logics
             return true;
         }
 
-        public static bool CanPutNext(ReadOnlySpan<BlockType> board, byte[][,] blockCache, int mapSize)
+        public static bool CanPutNext(ReadOnlySpan<BlockType> board, byte[][][] blockCache, int mapSize)
         {
             for (int y = 0; y < mapSize; y++)
             {
@@ -96,10 +96,10 @@ namespace LSR_Engine.src.Logics
             return false;
         }
 
-        public static bool CanPut(ReadOnlySpan<BlockType> board, byte[,] matrix, int posX, int posY, int mapSize)
+        public static bool CanPut(ReadOnlySpan<BlockType> board, byte[][] matrix, int posX, int posY, int mapSize)
         {
-            int blockHeight = matrix.GetLength(0);
-            int blockWidth = matrix.GetLength(1);
+            int blockWidth = matrix[0].Length;
+            int blockHeight = matrix.Length;
             
             for (int y = 0; y < blockHeight; y++)
             {
@@ -109,7 +109,7 @@ namespace LSR_Engine.src.Logics
 
                 for (int x = 0; x < blockWidth; x++)
                 {
-                    if (matrix[y, x] != 1) continue;
+                    if (matrix[y][x] != 1) continue;
 
                     int boardX = posX + x;
 

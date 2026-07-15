@@ -3,6 +3,7 @@ using LSR_Engine.src.Common;
 using LSR_Engine.src.Event;
 using LSR_Engine.src.Logics;
 using LSR_Engine.src.MatchContext;
+using LSR_Engine.src.Rules.Interface;
 using LSR_Engine.src.States;
 using LSR_Engine.src.States.Interface;
 
@@ -18,7 +19,7 @@ namespace LSR_Engine.src.Rules
         }
     }
 
-    internal class NextBlockRule
+    internal class NextBlockRule : IRule<Empty, Empty>
     {
         private readonly BlockQueue blockQueue;
         private readonly MatchConfig matchConfig;
@@ -41,7 +42,7 @@ namespace LSR_Engine.src.Rules
             this.eventBus = eventBus;
         }
 
-        public void Execute()
+        public Empty Execute(Empty empty)
         {
             Block newBlock = blockQueue.Next();
             Block nextBlock = blockQueue.Peek();
@@ -52,6 +53,8 @@ namespace LSR_Engine.src.Rules
 
             previewState.SetUp(newBlock, newPosition);
             eventBus.Publish(new SpawnNextBlockEvent(newPosition));
+
+            return default;
         }
     }
 }

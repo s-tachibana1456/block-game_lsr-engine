@@ -10,7 +10,8 @@ namespace LSR_Engine.src.States
         None = 0,
         Shape = 1 << 0,
         Position = 1 << 1,
-        Rotation = 1 << 2
+        Rotation = 1 << 2,
+        Validity = 1 << 3,
     }
 
     /// <summary>
@@ -21,6 +22,7 @@ namespace LSR_Engine.src.States
     {
         public Block CurrentBlock { get; private set; }
         public Position Position { get; private set; }
+        public bool CanPlace { get; private set; }
 
         private PreviewBlockFlags Flags;
 
@@ -41,6 +43,7 @@ namespace LSR_Engine.src.States
         {
             var flags = Flags;
             Flags = PreviewBlockFlags.None;
+            CanPlace = true;
             return flags;
         }
 
@@ -50,7 +53,7 @@ namespace LSR_Engine.src.States
         /// <param name="position">新しいブロックの座標</param>
         public void Move(Position position)
         {
-            Apply(CurrentBlock, position);
+            Apply(CurrentBlock, position, CanPlace);
         }
 
         /// <summary>
@@ -61,7 +64,7 @@ namespace LSR_Engine.src.States
         /// <param name="newPosition">回転後の新しい座標</param>
         public void Rotate(Block newBlock, Position newPosition)
         {
-            Apply(newBlock, newPosition);
+            Apply(newBlock, newPosition, CanPlace);
         }
 
         /// <summary>
@@ -72,19 +75,29 @@ namespace LSR_Engine.src.States
         /// <param name="newPosition">新しい座標</param>
         public void SetUp(Block newBlock, Position newPosition)
         {
-            Apply(newBlock, newPosition);
+            Apply(newBlock, newPosition, CanPlace);
+        }
+
+        /// <summary>
+        /// 仮ブロックが設置不可能なフラグを立てる
+        /// </summary>
+        public void SetCannotPlace()
+        {
+            Apply(CurrentBlock, Position, false);
         }
 
         /// <summary>
         /// クラス内部のプロパティを一括で変更する。前の値と異なれば自動的に変更フラグが立つ
         /// </summary>
-        private void Apply(Block block, Position position)
+        private void Apply(Block block, Position position, bool canPlace)
         {
             if (CurrentBlock != block) Flags |= PreviewBlockFlags.Shape;
             if (!Position.Equals(position)) Flags |= PreviewBlockFlags.Position;
+            if (CanPlace != canPlace) Flags |= PreviewBlockFlags.Validity;
 
             CurrentBlock = block;
             Position = position;
+            CanPlace = canPlace;
         }
     }
 }
