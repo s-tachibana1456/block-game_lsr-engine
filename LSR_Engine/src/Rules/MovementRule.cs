@@ -1,4 +1,5 @@
 ﻿using LSR_Engine.src.Common;
+using LSR_Engine.src.Logger;
 using LSR_Engine.src.Logics;
 using LSR_Engine.src.MatchContext;
 using LSR_Engine.src.Rules.Interface;
@@ -10,15 +11,19 @@ namespace LSR_Engine.src.Rules
     {
         private readonly PreviewBlockState previewBlockState;
         private readonly MatchConfig matchConfig;
+        private readonly ILogger logger;
 
-        public MovementRule(PreviewBlockState previewBlockState, MatchConfig matchConfig)
+        public MovementRule(PreviewBlockState previewBlockState, MatchConfig matchConfig, ILogger logger)
         {
             this.previewBlockState = previewBlockState;
             this.matchConfig = matchConfig;
+            this.logger = logger;
         }
 
         public Empty Execute(Actions action)
         {
+            logger.Trace($"Move Start. action: {action}");
+
             Position newPosition = MoveLogic.Move(
                 action,
                 previewBlockState.Position,
@@ -27,6 +32,8 @@ namespace LSR_Engine.src.Rules
             );
 
             previewBlockState.Move(newPosition);
+
+            logger.Debug($"Move Success. pos: ({newPosition.X}, {newPosition.Y})");
 
             return default;
         }

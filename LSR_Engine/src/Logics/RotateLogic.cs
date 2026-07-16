@@ -3,7 +3,7 @@ using System;
 
 namespace LSR_Engine.src.Logics
 {
-    internal readonly struct Rotated
+    internal readonly ref struct Rotated
     {
         public Block AfterBlock { get; }
         public Position Position { get; }
@@ -13,6 +13,8 @@ namespace LSR_Engine.src.Logics
             AfterBlock = afterBlock;
             Position = position;
         }
+
+        public void Deconstruct(out Block block, out Position position) => (block, position) = (AfterBlock, Position);
     }
 
     internal static class RotateLogic

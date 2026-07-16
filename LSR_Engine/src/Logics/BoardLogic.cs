@@ -19,7 +19,7 @@ namespace LSR_Engine.src.Logics
 
         public bool AnyCleared => Vertical != 0 || Horizontal != 0;
 
-        public int CleardCount => CountBits(Vertical) + CountBits(Horizontal);
+        public int ClearedCount => CountBits(Vertical) + CountBits(Horizontal);
 
         private static int CountBits(int mask)
         {
