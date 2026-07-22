@@ -11,7 +11,7 @@ namespace LSR_Engine.src.Rules
 {
     internal readonly struct GameOverEvent { }
 
-    internal class GameOverRule : IRule<Empty, Empty>
+    internal class GameOverRule : IRule<Empty, bool>
     {
         private readonly BlockQueue _blockQueue;
         private readonly BlockCache _blockCache;
@@ -28,7 +28,7 @@ namespace LSR_Engine.src.Rules
             _bus = eventBus;
         }
 
-        public Empty Execute(Empty empty)
+        public bool Execute(Empty empty)
         {
             Block nextBlock = _blockQueue.Peek();
 
@@ -43,7 +43,7 @@ namespace LSR_Engine.src.Rules
                 _bus.Publish(new GameOverEvent());
             }
 
-            return default;
+            return result;
         }
     }
 }
