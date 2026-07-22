@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="src\PipeLines\" />
     <Folder Include="src\Config\" />
   </ItemGroup>
 
